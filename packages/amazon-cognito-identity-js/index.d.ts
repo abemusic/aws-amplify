@@ -30,6 +30,22 @@ declare module "amazon-cognito-identity-js" {
         Storage?: ICognitoStorage;
     }
 
+    export interface ICognitoAuthenticateCallbacks {
+        onSuccess: (session: CognitoUserSession, userConfirmationNecessary?: boolean) => void,
+        onFailure: (err: Error) => void,
+        newPasswordRequired?: (userAttributes: any, requiredAttributes: any) => void,
+        mfaRequired?: (challengeName: any, challengeParameters: any) => void,
+        totpRequired?: (challengeName: any, challengeParameters: any) => void,
+        customChallenge?: (challengeParameters: any) => void,
+        mfaSetup?: (challengeName: any, challengeParameters: any) => void,
+        selectMFAType?: (challengeName: any, challengeParameters: any) => void
+    }
+
+    export interface IMfaSettings {
+        Enabled: boolean,
+        PreferredMfa: boolean
+    }
+
     export class CognitoUser {
         constructor(data: ICognitoUserData);
 
@@ -92,6 +108,7 @@ declare module "amazon-cognito-identity-js" {
                 onFailure: (err: any) => void
             }): void;
         public verifySoftwareToken(totpCode: string, friendlyDeviceName: string, callbacks: {onSuccess: (session: CognitoUserSession) => void, onFailure: (err: Error) => void}): void;
+        public setUserMfaPreference(smsMfaSettings: IMfaSettings | null, softwareTokenMfaSettings: IMfaSettings | null, callback: NodeCallback<Error, string>): void;
     }
 
     export interface MFAOption {
