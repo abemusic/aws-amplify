@@ -1,4 +1,4 @@
-declare module "amazon-cognito-identity-js" {
+declare module "@built/amazon-cognito-identity-js" {
 
     //import * as AWS from "aws-sdk";
 
